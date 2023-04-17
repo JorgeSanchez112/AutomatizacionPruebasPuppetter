@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer')
 
+const {getText, getCount} = require('../lib/helpers')
+
 describe(' Extrayendo informacion', ()=>{
 
     let browser
@@ -24,9 +26,11 @@ describe(' Extrayendo informacion', ()=>{
 
         await page.waitForSelector(' #Header-v2 > nav.Nav-header.Nav-header-mobileCtas > div.Menu > button')
 
-        const nombreBoton = await page.$eval(' #Header-v2 > nav.Nav-header.Nav-header-mobileCtas > div.Menu > button', (button)=>button.textContent)
+        const nombreBoton = await getText(page ,'#Header-v2 > nav.Nav-header.Nav-header-mobileCtas > div.Menu > button')
 
         console.log('nombreBoton', nombreBoton)
+
+        /* console.log('nombreBoton', nombreBoton)
         const [button] = await page.$x('//*[@id="Header-v2"]/nav[1]/section/button[2]')
         const propiedad = await button.getProperty('textContent')
         const texto = await propiedad.jsonValue()
@@ -39,7 +43,7 @@ describe(' Extrayendo informacion', ()=>{
 
         const button3 = await page.waitForXPath('//*[@id="Header-v2"]/nav[1]/div[1]/div/a/div/figure/img')
         const texto3 = await page.evaluate((name)=>name.textContent, button3)
-        console.log('texto', texto3)        
+        console.log('texto', texto3)     */    
        
     }, 35000)
 
@@ -54,7 +58,7 @@ describe(' Extrayendo informacion', ()=>{
 
     it('Contar los elementos de una pagina', async ()=>{
        
-        const images = await page.$$eval('img',(imagenes)=>imagenes.length)
+        const images = await getCount(page, 'img')
         console.log(images)
 
         await browser.close()
